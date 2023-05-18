@@ -10,6 +10,19 @@ resource "aws_s3_bucket" "code2cloud-secret-s3-bucket" {
   }
 }
 
+
+resource "aws_s3_bucket" "code2cloud-secret-s3-bucket_log_bucket" {
+  bucket = "code2cloud-secret-s3-bucket-log-bucket"
+}
+
+resource "aws_s3_bucket_logging" "code2cloud-secret-s3-bucket" {
+  bucket = aws_s3_bucket.code2cloud-secret-s3-bucket.id
+
+  target_bucket = aws_s3_bucket.code2cloud-secret-s3-bucket_log_bucket.id
+  target_prefix = "log/"
+}
+
+
 resource "aws_s3_bucket_acl" "code2cloud-secret-s3-bucket-acl" {
   bucket = aws_s3_bucket.code2cloud-secret-s3-bucket.id
   acl    = "private"
